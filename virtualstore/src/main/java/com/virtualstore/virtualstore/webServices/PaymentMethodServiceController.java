@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("${url.paymentMethod}")
+@RequestMapping("${url.payment_methods}")
 public class PaymentMethodServiceController {
 
     @Autowired
