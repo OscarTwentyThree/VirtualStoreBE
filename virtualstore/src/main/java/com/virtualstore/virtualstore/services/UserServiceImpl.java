@@ -45,4 +45,13 @@ public class UserServiceImpl implements UserService {
             return userRepository.findById(id).get();
         }
     }
+
+    public User getUserByEmail(String email) {
+
+        if(userRepository.findByEmail(email) == null){
+            throw new RuntimeException("User not found");
+        }else{
+            return userRepository.findByEmail(email);
+        }
+    }
 }
