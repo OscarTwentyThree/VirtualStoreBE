@@ -1,11 +1,15 @@
 package com.virtualstore.virtualstore.webServices;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.virtualstore.virtualstore.dtos.UserBasicInfo;
 import com.virtualstore.virtualstore.entities.User;
+import com.virtualstore.virtualstore.mappers.UserMapper;
 import com.virtualstore.virtualstore.services.UserService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,9 +27,14 @@ public class UserServiceController {
     @Autowired
     private UserService UserService;
 
+    @Autowired
+    UserMapper userMapper;
+
     @GetMapping
     public ResponseEntity<Object> getUsers() {
-      return new ResponseEntity<>(UserService.getUsers(), HttpStatus.OK);
+
+    Collection<UserBasicInfo> users = userMapper.usersToUserBasicInfos(UserService.getUsers());
+      return new ResponseEntity<>(users, HttpStatus.OK);
    }
 
    @GetMapping(value = "{id}")

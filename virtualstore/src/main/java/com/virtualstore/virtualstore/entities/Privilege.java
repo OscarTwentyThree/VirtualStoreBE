@@ -55,7 +55,6 @@ public class Privilege {
         return "Privilege{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", roleList=" + roleList +
                 '}';
     }
 
