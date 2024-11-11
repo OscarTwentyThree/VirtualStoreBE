@@ -9,5 +9,6 @@ public interface SubCategoryService {
     public abstract void deleteSubCategory(Long id);
     public abstract Collection<SubCategory> getSubCategories();
     public abstract SubCategory getSubCategory(Long id);
+    public abstract SubCategory getCategoryByName(String name);
     
 }

@@ -31,6 +31,16 @@ public class AuthenticationService {
     }
 
     public User signup(RegisterUserDto input) {
+        
+        if (userRepository.findByEmail(input.getEmail()).isPresent()) {
+            throw new RuntimeException("El correo electronico ya esta registrado");
+            
+        }
+
+        if (userRepository.findById(input.getId()).isPresent()) {
+            throw new RuntimeException("La identificacion ya esta registrada");
+        }
+        
         var user = new User();
 
         Role role = new Role();
@@ -38,7 +48,7 @@ public class AuthenticationService {
         List<Role> roles = new ArrayList<Role>();
 
         role.setId(2L);
-        role.setName("USER_ROLE");
+        role.setName("USER");
 
         roles.add(role);
 
@@ -53,6 +63,7 @@ public class AuthenticationService {
 
 
         return userRepository.save(user);
+
     }
 
     public User authenticate(LoginUserDto input) {
@@ -62,7 +73,6 @@ public class AuthenticationService {
                 input.getPassword()
             )
         );
-
         return userRepository.findByEmail(input.getEmail()).orElseThrow();
     }
 

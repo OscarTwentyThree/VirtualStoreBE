@@ -1,8 +1,7 @@
 package com.virtualstore.virtualstore.responses;
 
-import com.virtualstore.virtualstore.dtos.UserBasicInfo;
+public class GenericResponse {
 
-public class LoginResponse {
     private String token;
 
     private long expiresIn;
@@ -11,13 +10,13 @@ public class LoginResponse {
 
     private Boolean error;
 
-    private UserBasicInfo data;
+    private Object data;
 
     public String getToken() {
         return token;
     }
 
-    public LoginResponse setToken(String token) {
+    public GenericResponse setToken(String token) {
         this.token = token;
         return this;
     }
@@ -26,24 +25,25 @@ public class LoginResponse {
         return expiresIn;
     }
 
-    public LoginResponse setExpiresIn(long expiresIn) {
+    public GenericResponse setExpiresIn(long expiresIn) {
         this.expiresIn = expiresIn;
         return this;
     }
+
     public Boolean getError() {
         return error;
     }
 
-    public LoginResponse setError(Boolean error) {
+    public GenericResponse setError(Boolean error) {
         this.error = error;
         return this;
     }
 
-    public UserBasicInfo getData() {
+    public Object getData() {
         return data;
     }
 
-    public LoginResponse setData(UserBasicInfo data) {
+    public GenericResponse setData(Object data) {
         this.data = data;
         return this;
     }
@@ -52,17 +52,20 @@ public class LoginResponse {
         return msg;
     }
 
-    public LoginResponse setMsg(String msg) {
+    public GenericResponse setMsg(String msg) {
         this.msg = msg;
         return this;
     }
 
     @Override
     public String toString() {
-        return "LoginResponse{" +
+        return "GanericResponse{" +
                 "token='" + token + '\'' +
                 ", expiresIn=" + expiresIn +
+                ", msg='" + msg + '\'' +
                 ", error=" + error +
+                ", data=" + data +
                 '}';
     }
+    
 }

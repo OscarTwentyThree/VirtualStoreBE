@@ -1,14 +1,19 @@
 package com.virtualstore.virtualstore.webServices;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.virtualstore.virtualstore.dtos.PaymentMethodBasicInfo;
 import com.virtualstore.virtualstore.entities.PaymentMethod;
+import com.virtualstore.virtualstore.mappers.PaymentMethodMapper;
 import com.virtualstore.virtualstore.services.PaymentMethodService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@CrossOrigin(origins = "http://127.0.0.1:5173")
 @RestController
 @RequestMapping("${url.payment_method}")
 public class PaymentMethodServiceController {
@@ -23,9 +29,14 @@ public class PaymentMethodServiceController {
     @Autowired
     private PaymentMethodService paymentMethodService;
 
+    @Autowired
+    PaymentMethodMapper paymentMethodMapper;
+
     @GetMapping
     public ResponseEntity<Object> getPaymentMethods() {
-      return new ResponseEntity<>(paymentMethodService.getPaymentMethods(), HttpStatus.OK);
+
+        Collection<PaymentMethodBasicInfo> paymentMethods = paymentMethodMapper.paymentMethodsToPaymentMethodBasicInfos(paymentMethodService.getPaymentMethods());
+        return new ResponseEntity<>(paymentMethods, HttpStatus.OK);
     }
 
     @GetMapping(value = "{id}")

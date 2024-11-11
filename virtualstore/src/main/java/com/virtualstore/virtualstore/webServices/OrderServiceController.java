@@ -1,14 +1,21 @@
 package com.virtualstore.virtualstore.webServices;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.virtualstore.virtualstore.dtos.BillBasicInfo;
+import com.virtualstore.virtualstore.dtos.OrderBasicInfo;
 import com.virtualstore.virtualstore.entities.Order;
+import com.virtualstore.virtualstore.mappers.OrderMapper;
+import com.virtualstore.virtualstore.responses.GenericResponse;
 import com.virtualstore.virtualstore.services.OrderService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@CrossOrigin(origins = "http://127.0.0.1:5173")
 @RestController
 @RequestMapping("${url.order}")
 public class OrderServiceController {
@@ -23,9 +31,14 @@ public class OrderServiceController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    OrderMapper orderMapper;
+
     @GetMapping
     public ResponseEntity<Object> getOrders() {
-      return new ResponseEntity<>(orderService.getOrders(), HttpStatus.OK);
+
+        Collection<OrderBasicInfo> orders = orderMapper.ordersToOrderBasicInfos(orderService.getOrders());
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @GetMapping(value = "{id}")
@@ -41,18 +54,20 @@ public class OrderServiceController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createOrder(@RequestBody Order order) {
-     orderService.createOrder(order);
+    public ResponseEntity<GenericResponse> createOrder(@RequestBody Order order) {
+     GenericResponse response;
      try{
-         if(orderService.getOrder(order.getId()) == null){
+         //if(orderService.getOrder(order.getId()) == null){
          orderService.createOrder(order);
-         return new ResponseEntity<>("Order is created successfully", HttpStatus.CREATED);
-         }else{
-             throw new Exception("Order already exists");
-         }
+         response = new GenericResponse().setToken(null).setExpiresIn(0).setError(false).setData(orderMapper.orderToOrderBasicInfo(order)).setMsg("Orden agregada");
+         return ResponseEntity.ok(response);
+         //}else{
+           //  throw new Exception("Order already exists");
+        // }
          
      }catch(Exception e){
-         return new ResponseEntity<>("Order already exists", HttpStatus.CONFLICT);
+         response = new GenericResponse().setToken(null).setExpiresIn(0).setError(true).setData(null).setMsg("Error al agregar la orden");
+         return ResponseEntity.badRequest().body(response);
      }
        
     }

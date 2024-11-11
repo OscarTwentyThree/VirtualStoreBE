@@ -9,5 +9,7 @@ public interface StatusService {
     public abstract void deleteStatus(Long id);
     public abstract Collection<Status> getStates();
     public abstract Status getStatus(Long id);
+    public abstract Status getStatusByName(String name);
+    
     
 }

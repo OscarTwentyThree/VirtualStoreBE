@@ -5,11 +5,14 @@ import com.virtualstore.virtualstore.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.virtualstore.virtualstore.repositories.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     @Override
     public void createUser(User user) {
@@ -19,7 +22,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(Long id, User user) {
         User userToUpdate = userRepository.findById(id).get();
-        userToUpdate.setPassword(user.getPassword());
+        userToUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
         userToUpdate.setFirstName(user.getFirstName());
         userToUpdate.setLastName(user.getLastName());
         userToUpdate.setEmail(user.getEmail());
@@ -39,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(Long id) {
-        if(userRepository.findById(id) == null){
+        if(userRepository.findById(id).get() == null){
             throw new RuntimeException("User not found");
         }else{
             return userRepository.findById(id).get();

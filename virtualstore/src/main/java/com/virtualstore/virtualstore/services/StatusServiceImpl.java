@@ -38,9 +38,17 @@ public class StatusServiceImpl implements StatusService {
     @Override
     public Status getStatus(Long id) {
         if(statusRepository.findById(id) == null){
-            throw new RuntimeException("Status not found");
+            return null;
         }else{
             return statusRepository.findById(id).get();
+        }
+    }
+
+    public Status getStatusByName(String name) {
+        if(statusRepository.findByName(name) == null){
+           return null;
+        }else{
+            return statusRepository.findByName(name);
         }
     }
     

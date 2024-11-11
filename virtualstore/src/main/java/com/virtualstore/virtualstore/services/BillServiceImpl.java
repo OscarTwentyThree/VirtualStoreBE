@@ -28,7 +28,7 @@ public class BillServiceImpl implements BillService {
         billToUpdate.setUser(bill.getUser());
         billToUpdate.setPaymentMethod(bill.getPaymentMethod());
         billToUpdate.setStatus(bill.getStatus());
-        billToUpdate.setOrders(bill.getOrders());
+        //billToUpdate.setOrders(bill.getOrders());
         billToUpdate.setShippingAddress(bill.getShippingAddress());
         billRepository.save(billToUpdate);
 

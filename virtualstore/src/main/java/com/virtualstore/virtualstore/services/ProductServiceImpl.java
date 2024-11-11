@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProduct(Long id) {
         if(productRepository.findById(id) == null){
-            throw new RuntimeException("Product not found");
+            return null;
         }else{
             return productRepository.findById(id).get();
         }

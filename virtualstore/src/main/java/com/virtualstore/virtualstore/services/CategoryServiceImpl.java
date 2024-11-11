@@ -40,10 +40,19 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategory(Long id) {
         if(categoryRepository.findById(id) == null){
-            throw new RuntimeException("Category not found");
+            return null;
         }else{
             return categoryRepository.findById(id).get();
         }
     }
+
+    public Category getCategoryByName(String name) {
+        if(categoryRepository.findByName(name) == null){
+           return null;
+        }else{
+            return categoryRepository.findByName(name);
+        }
+    }
+    
     
 }

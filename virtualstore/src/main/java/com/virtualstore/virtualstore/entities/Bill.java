@@ -2,6 +2,9 @@ package com.virtualstore.virtualstore.entities;
 
 import jakarta.persistence.*;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 @Entity
@@ -14,6 +17,8 @@ public class Bill {
     private Double total;
     private Double subtotal;
     private Double tax;
+
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date date;
 
     @ManyToOne

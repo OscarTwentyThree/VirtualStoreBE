@@ -3,6 +3,7 @@ package com.virtualstore.virtualstore.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
+
 import com.virtualstore.virtualstore.entities.SubCategory;
 import com.virtualstore.virtualstore.repositories.SubCategoryRepository;
 
@@ -38,9 +39,17 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     @Override
     public SubCategory getSubCategory(Long id) {
         if(subCategoryRepository.findById(id) == null){
-            throw new RuntimeException("SubCategory not found");
+            return null;
         }else{
             return subCategoryRepository.findById(id).get();
+        }
+    }
+
+    public SubCategory getCategoryByName(String name) {
+        if(subCategoryRepository.findByName(name) == null){
+           return null;
+        }else{
+            return subCategoryRepository.findByName(name);
         }
     }
     
